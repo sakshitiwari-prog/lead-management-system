@@ -254,7 +254,7 @@ export default function App() {
           search={search}
           setSearch={handleSearchInput}
           stageFilter={stageFilter}
-          leads={leads}
+          leads={filteredLeads}
           setStageFilter={handleStageFilter}
           agentFilter={agentFilter}
           setAgentFilter={handleAgentFilter}
