@@ -1,70 +1,142 @@
-# Getting Started with Create React App
+# Lead Management Kanban Board
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A fully interactive Lead Management System built using React, Chakra UI, and dnd-kit, featuring customizable stages, drag-and-drop lead management, filters, and CSV export.
+This project was bootstrapped with Create React App.
 
+
+## Features
+### 1. Dynamic Stages
+
+- Default stages: New Lead, Contacted, Qualified, Won, Lost
+
+- Add new stages and leads
+
+- Rename stages and edit leads
+
+- Delete stages and leads
+
+- Drag & drop leads between stages
+
+- Reorder leads within the same stage
+
+### 2. Lead Cards
+
+- Each lead card includes:
+  - Lead Name
+  - Contact Info (Email / Phone)
+  - Status / Stage
+  - Priority (High/Medium/Low)
+  - Assigned Sales Agent
+  - Notes
+### 3. Sales Agents
+
+- Maintain a list of agents (e.g., John, Priya, Ahmed)
+- Assign a lead to any agent
+- Filter leads by agents
+ 
+### 4. Search & Filters
+
+- Filter leads by Lead name, Stage, Assigned agent
+- Search is real-time with debouncing for performance.
+ 
+### 5. Dashboard Stats
+
+- Leads per stage
+- Leads per agent
+ 
+### 6. Drag & Drop
+
+- Powered by @dnd-kit:
+  - Move leads between stages
+  - Change priority
+  - Reorder within the same stage
+
+### 7. LocalStorage Persistence
+
+- All leads, stages, agents, and filters are saved in localStorage, so data stays even after reload.
+ 
+### 8. Export Leads to CSV
+
+- Export the entire leads list (or filtered list) as a CSV file.
+
+### 7. Responsive UI
+
+- Mobile-friendly.
+- Smooth scrolling columns.
+- Adaptive layouts
+ 
+ 
+ ## Tech Stack
+- React 19
+- Chakra UI 
+- dnd-kit (Drag & Drop)
+- React Toastify
+- JavaScript 
+
+ ## Folder Structure (High-Level)
+```
+src/
+│
+├── components/
+│   ├── Header/
+│   ├── Lead/
+│   ├── DroppableContainer/
+│   ├── DraggableItem/
+│   ├── CreateStageModal/
+│   ├── CreateLeadModal/
+│   ├── SearchFilter/
+│   └── LeadPerSales/
+│   
+├── utils/
+│   ├── mockData.js
+│   ├── constant.js
+│   └── helper.js
+│
+├── common/
+│   ├── images/
+│   └── theme/
+│
+├── App.js
+└── index.js
+```
+## Getting Started 
+
+This project was bootstrapped with Create React App..
+
+### 1. Install Dependencies
+
+```bash
+  npm install
+```
+### 2. Start Development Server
+
+```bash
+  npm start
+```
+- Runs the app in development mode.
+- Open [http://localhost:3000](http://localhost:3000) 
+ in your browser.
+### 3. Build for Production
+
+```bash
+  npm run build
+```
 ## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches tests in watch mode.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Creates a production build.
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Irreversible. Gives full control of CRA configuration.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Author
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Sakshi Tiwari
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
