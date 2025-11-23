@@ -56,7 +56,6 @@ export default function App() {
 
     setStageList([...stageList, newStage]);
   }
-
   function handleCreateLead(data) {
     const exists = filteredLeads.findIndex(item => item.id === data.id) !== -1;
 
@@ -68,12 +67,14 @@ export default function App() {
       setFilteredLeads(prev =>
         prev.map(item => (item.id === data.id ? data : item))
       );
+      localStorage.setItem('updatedInitialLeads', JSON.stringify(leads.map(item => (item.id === data.id ? data : item))))
     } else {
       setLeads(prev => [...prev, data]);
       setFilteredLeads(prev => [...prev, data]);
+      localStorage.setItem('updatedInitialLeads', JSON.stringify([...leads, data]))
     }
+    reapplyFilters();
   }
-
   const handleDragEnd = ({ active, over }) => {
     if (!over) return;
 
@@ -82,20 +83,38 @@ export default function App() {
 
     const activeLead = leads.find(l => l.id === activeId);
     const overLead = leads.find(l => l.id === overId);
+    console.log(activeLead, overLead, 'activeLead && overLead');
 
+    if (activeLead?.id === overLead?.id) return
     if (activeLead && overLead && activeLead.stage === overLead.stage) {
-      const newItems = [...leads];
+      const newLeads = [...leads];
 
-      const oldIndex = newItems.findIndex(l => l.id === activeId);
-      const newIndex = newItems.findIndex(l => l.id === overId);
+      const stageLeads = newLeads.filter(l => l.stage === activeLead.stage);
 
-      newItems.splice(oldIndex, 1);
-      newItems.splice(newIndex, 0, activeLead);
+      const oldIndex = stageLeads.findIndex(l => l.id === activeId);
+      const newIndex = stageLeads.findIndex(l => l.id === overId);
 
-      setLeads(newItems);
-      setFilteredLeads(newItems)
+      stageLeads.splice(oldIndex, 1);
+      stageLeads.splice(newIndex, 0, activeLead);
+
+      const updatedLeads = newLeads.map(l => {
+        if (l.stage === activeLead.stage) {
+          return stageLeads.shift();
+        }
+        return l;
+      });
+
+      setLeads(updatedLeads);
+      setFilteredLeads(updatedLeads.filter(l =>
+        !stageFilter || l.stage === stageFilter
+      ));
+
+      localStorage.setItem('updatedInitialLeads', JSON.stringify(updatedLeads));
+
       return;
     }
+
+
     const newStage = over.data.current.stage;
 
 
@@ -109,8 +128,17 @@ export default function App() {
         lead.id === activeId ? { ...lead, stage: newStage } : lead
       )
     );
+    localStorage.setItem('updatedInitialLeads', JSON.stringify(leads.map(lead =>
+      lead.id === activeId ? { ...lead, stage: newStage } : lead
+    )));
+
 
   };
+  useEffect(() => {
+    console.log(filteredLeads, 'filteredLeads');
+
+  }, [filteredLeads])
+
   useEffect(() => {
     function handleClickOutside(e) {
       if (editingStage && inputRef.current && !inputRef.current.contains(e.target)) {
@@ -142,6 +170,7 @@ export default function App() {
         s.id === stage.id ? { ...s, title: editValue } : s
       )
     );
+    reapplyFilters();
 
   }
   function stageHandler(e, stage) {
@@ -165,22 +194,29 @@ export default function App() {
     };
   }
   function applyFilters(searchVal, stageVal, agentVal) {
+    const initialUpdatedLeads = localStorage.getItem("updatedInitialLeads");
+    if (initialUpdatedLeads) {
+      const parsed = JSON.parse(initialUpdatedLeads);
 
-    let result = leads.filter(l => {
-      const matchesSearch = l.leadName.toLowerCase().includes(searchVal.toLowerCase());
+      let result = parsed.filter(l => {
 
-      const matchesStage = stageVal ? l.stage === stageVal : true;
 
-      const matchesAgent = agentVal ? l.assignedSalesAgent == agentVal : true;
+        const matchesSearch = l.leadName.toLowerCase().includes(searchVal.toLowerCase());
 
-      return matchesSearch && matchesStage && matchesAgent;
-    });
+        const matchesStage = stageVal ? l.stage === stageVal : true;
 
-    setFilteredLeads(result);
+        const matchesAgent = agentVal ? l.assignedSalesAgent == agentVal : true;
+
+        return matchesSearch && matchesStage && matchesAgent;
+      });
+
+      setFilteredLeads(result);
+    }
   }
+
   const debouncedSearch = debounce((value) => {
     applyFilters(value, stageFilter, agentFilter);
-  }, 400);
+  }, 1000);
   function handleStageFilter(value) {
 
     setStageFilter(value);
@@ -206,26 +242,43 @@ export default function App() {
 
     setIsCreateLeadInfo({ isLeadModalOpen: true, mode: 'edit', lead })
   }
+  function reapplyFilters() {
+    applyFilters(search, stageFilter, agentFilter);
+  }
 
   function handleDeleteLead(lead) {
     const updated = leads.filter(l => l.id !== lead.id);
 
     setLeads(updated);
     setFilteredLeads(updated);
+    localStorage.setItem("updatedInitialLeads", JSON.stringify(updated));
+
+    applyFilters(search, stageFilter, agentFilter);
+
   }
   const [isHydrated, setIsHydrated] = useState(false);
+
+
 
   useEffect(() => {
     if (isHydrated) return;
 
     const saved = localStorage.getItem("leadAppState");
+    const initialUpdatedLeads = localStorage.getItem("updatedInitialLeads");
     if (saved) {
       const parsed = JSON.parse(saved);
-
       setSearch(parsed.search || "");
+      setStageList(parsed.stageList || CONSTANT.stageList)
       setStageFilter(parsed.stageFilter || "");
       setAgentFilter(parsed.agentFilter || "");
       setFilteredLeads(parsed.filteredLeads || []);
+    }
+    if (initialUpdatedLeads) {
+      const parsedInitalLeads = JSON.parse(initialUpdatedLeads);
+      setLeads(parsedInitalLeads || [])
+    } else {
+      localStorage.setItem("updatedInitialLeads", JSON.stringify(leads));
+
     }
 
     setIsHydrated(true);
@@ -238,10 +291,11 @@ export default function App() {
       search,
       stageFilter,
       agentFilter,
+      stageList
     };
 
     localStorage.setItem("leadAppState", JSON.stringify(state));
-  }, [search, stageFilter, agentFilter, filteredLeads]);
+  }, [search, stageFilter, agentFilter, stageList, filteredLeads]);
 
 
   return (
@@ -359,6 +413,9 @@ export default function App() {
                       }}
                       onDelete={(stage) => {
                         setStageList(prev => prev.filter(s => s.id !== stage.id));
+                        localStorage.setItem("updatedInitialLeads", JSON.stringify(leads.filter((lead) => lead.stage !== stage.value)));
+
+                        reapplyFilters();
                       }}
                       onClose={() => {
                         setOpenMenu(null)

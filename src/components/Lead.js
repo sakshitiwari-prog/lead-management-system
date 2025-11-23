@@ -23,6 +23,7 @@ function Lead({ lead, onDeleteLead, onEditLead }) {
     return (
         <chakra.div
             p="14px"
+            h={'230px'}
             bg={colors.white}
             borderRadius="12px"
             boxShadow={`0 2px 6px ${colors.leadCardBg}`}

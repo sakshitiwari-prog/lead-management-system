@@ -104,7 +104,7 @@ export function CreateLeadModal({ isOpen, onClose, onSave, stageList, mode, lead
               name="leadName"
               value={form.leadName}
               onChange={handleChange}
-              border={`1px solid ${errors.leadName ? "red.500" : colors.leadField}`}
+              border={`1px solid ${errors.leadName ? colors.error : colors.leadField}`}
             />
             {errors.leadName && (
               <chakra.p color="red" fontSize="12px" mt="4px">
@@ -118,7 +118,7 @@ export function CreateLeadModal({ isOpen, onClose, onSave, stageList, mode, lead
               name="email"
               value={form.email}
               onChange={handleChange}
-              border={`1px solid ${errors.email ? "red.500" : colors.leadField}`}
+              border={`1px solid ${errors.email ? colors.error : colors.leadField}`}
             />
             {errors.email && (
               <chakra.p color="red" fontSize="12px" mt="4px">
@@ -133,11 +133,11 @@ export function CreateLeadModal({ isOpen, onClose, onSave, stageList, mode, lead
             ))}
           </Select>
 
-          <Select name="priority" placeholder={CONSTANT.leads.selectPriority} value={form.priority} onChange={handleChange}>
+          <Select name="priority"  value={form.priority} onChange={handleChange}>
             {CONSTANT.priorityList.map(p => <option value={p.value}>{p.title}</option>)}
           </Select>
 
-          <Select name="stage" placeholder={CONSTANT.leads.selectStage} value={form.stage} onChange={handleChange}>
+          <Select name="stage"  value={form.stage} onChange={handleChange}>
             {stageList.map(s => <option value={s.value}>{s.title}</option>)}
           </Select>
 

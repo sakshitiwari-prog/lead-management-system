@@ -124,7 +124,8 @@ export const globalStyles = {
     leadCardBg:"rgba(0,0,0,0.06)",
     leadNotesBorder:"#e4e4e4",
     menuBorder:"#ddd",
-    menuBorderShadow:"rgba(0,0,0,0.15)"
+    menuBorderShadow:"rgba(0,0,0,0.15)",
+    error:"#E53E3E"
 
   },
   styles: {

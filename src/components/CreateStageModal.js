@@ -58,7 +58,7 @@ export function CreateStageModal({ isOpen, onClose, onCreate }) {
           <Input
             placeholder={CONSTANT.stage.stageTitlePlaceholder}
             value={title}
-            border={`1px solid ${error ? "red.500" : colors.black}`}
+            border={`1px solid ${error ? colors.error : colors.black}`}
             onChange={(e) => {
               setError(false)
               const value = e.target.value
@@ -68,7 +68,7 @@ export function CreateStageModal({ isOpen, onClose, onCreate }) {
           />
           {error && <chakra.p
 
-            color="red.500"
+            color={colors.error}
 
           >
             {CONSTANT.stage.stageTitleError}

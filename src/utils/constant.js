@@ -1,3 +1,5 @@
+import { globalStyles } from "../common/theme/styles";
+
 export const CONSTANT = {
     common: {
         stageTitleExist: "A stage with this name already exists.",
@@ -22,6 +24,7 @@ export const CONSTANT = {
         email: 'Email :-',
         assignedAgent: 'Assigned Agent :-',
         noNotesAdded: "No notes added",
+        noLeadsFound:"No leads found",
         createLead: 'Create Lead',
         editLead: 'Edit Lead',
         leadName: "Lead Name",
@@ -48,7 +51,7 @@ export const CONSTANT = {
         { id: 'stage5', title: "Lost", value: "lost" }
     ],
     priorityList: [
-        { id: 1, title: "High", value: "high", color: "red.500", bg: "red.100" },
+        { id: 1, title: "High", value: "high", color: globalStyles.colors.error, bg: "red.100" },
         { id: 2, title: "Low", value: "low", color: "green.600", bg: "green.100" },
         { id: 3, title: "Medium", value: "medium", color: "orange.600", bg: "orange.100" },
     ],

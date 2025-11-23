@@ -39,7 +39,7 @@ export function LeadMenu({ onEdit, onDelete, onClose, menuRef }) {
           e.stopPropagation();
           e.preventDefault();
         }}
-        color="red.500"
+        color={colors.error}
         _hover={{ bg: "red.50" }}
         onClick={() => {
           onDelete();
