@@ -59,7 +59,7 @@ This project was bootstrapped with Create React App.
 
 - Export the entire leads list (or filtered list) as a CSV file.
 
-### 7. Responsive UI
+### 9. Responsive UI
 
 - Mobile-friendly.
 - Smooth scrolling columns.
